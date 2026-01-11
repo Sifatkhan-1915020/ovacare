@@ -72,6 +72,31 @@
              placeholder="e.g. 10000"
              required>
 
+      <label class="block text-sm text-muted mt-4">Reason for Funding</label>
+      <textarea id="reason"
+                class="mt-1 w-full rounded-xl px-4 py-3 border focus:ring-2 focus:ring-primary"
+                placeholder="Describe why you need assistance"
+                required></textarea>
+
+      <label class="block text-sm text-muted mt-4">Upload Supporting Document</label>
+      <input id="doc"
+             type="file"
+             class="mt-1 w-full rounded-xl px-4 py-2 border focus:ring-2 focus:ring-primary">
+
+      <label class="block text-sm text-muted mt-4">Email</label>
+      <input id="email"
+             type="email"
+             class="mt-1 w-full rounded-xl px-4 py-3 border focus:ring-2 focus:ring-primary"
+             placeholder="Enter your email"
+             required>
+
+      <label class="block text-sm text-muted mt-4">Bank Account Number</label>
+      <input id="bank"
+             type="text"
+             class="mt-1 w-full rounded-xl px-4 py-3 border focus:ring-2 focus:ring-primary"
+             placeholder="Enter bank account number"
+             required>
+
       <button class="mt-5 w-full rounded-xl py-3 bg-gradient-to-r from-primary to-accent text-white font-medium shadow hover:scale-[1.02] transition">
         Submit Request
       </button>
@@ -100,12 +125,20 @@
 
       const nidInput = document.getElementById("nid");
       const amtInput = document.getElementById("amt");
+      const reasonInput = document.getElementById("reason");
+      const docInput = document.getElementById("doc");
+      const emailInput = document.getElementById("email");
+      const bankInput = document.getElementById("bank");
       const statusEl = document.getElementById("aidStatus");
 
       const nid = nidInput.value.trim();
       const amount = amtInput.value.trim();
+      const reason = reasonInput.value.trim();
+      const email = emailInput.value.trim();
+      const bank = bankInput.value.trim();
+      const docName = docInput.files.length > 0 ? docInput.files[0].name : "No document";
 
-      if (!nid || !amount) return;
+      if (!nid || !amount || !reason || !email || !bank) return;
 
       const maskedNID = "****" + nid.slice(-4);
 
@@ -113,6 +146,10 @@
         id: Date.now(),
         nid: maskedNID,
         amount,
+        reason,
+        email,
+        bank,
+        document: docName,
         status: "Pending",
         time: new Date().toLocaleString()
       };
@@ -126,6 +163,10 @@
 
       nidInput.value = "";
       amtInput.value = "";
+      reasonInput.value = "";
+      emailInput.value = "";
+      bankInput.value = "";
+      docInput.value = "";
 
       renderAidRequests();
     }
@@ -140,13 +181,15 @@
       }
 
       list.innerHTML = requests.map(r => `
-        <li class="rounded-xl bg-white/70 border p-4 flex justify-between items-center">
-          <div>
-            <p class="font-medium">Amount: ৳${r.amount}</p>
-            <p class="text-xs text-muted">NID: ${r.nid}</p>
-            <p class="text-xs text-muted">${r.time}</p>
-          </div>
-          <span class="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
+        <li class="rounded-xl bg-white/70 border p-4">
+          <p class="font-medium">Amount: ৳${r.amount}</p>
+          <p class="text-xs text-muted">NID: ${r.nid}</p>
+          <p class="text-xs text-muted">Reason: ${r.reason}</p>
+          <p class="text-xs text-muted">Email: ${r.email}</p>
+          <p class="text-xs text-muted">Bank: ${r.bank}</p>
+          <p class="text-xs text-muted">Document: ${r.document}</p>
+          <p class="text-xs text-muted">${r.time}</p>
+          <span class="mt-2 inline-block px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
             ${r.status}
           </span>
         </li>
