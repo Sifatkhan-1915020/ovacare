@@ -21,22 +21,61 @@
 <body class="bg-gradient-to-br from-pink-50 via-purple-100 to-indigo-100 text-gray-800 font-sans">
 
   <!-- Navbar -->
-  <header class="sticky top-0 bg-white/70 backdrop-blur border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-2">
-        <img src="Minimalist logo desi.png" alt="Nexora" class="h-8 w-8">
-        <span class="text-xl font-bold text-purple-700"> <h1>OvaCare✅</h1></span>
-      </a>
-      <nav class="hidden md:flex items-center gap-6 text-gray-600">
-        <a href="articles.html" class="hover:text-purple-700">Articles</a>
-        <a href="podcasts.html" class="hover:text-purple-700">Podcasts</a>
-        <a href="resources.html" class="hover:text-purple-700">Resources</a>
-        <a href="community.html" class="hover:text-purple-700">Community</a>
-		<a href="contactUs.html" class="hover:text-purple-700">About Us </a>
-		<a href="index.html" class="px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700">Logout</a>
-      </nav>
-    </div>
-  </header>
+  <!-- Navbar -->
+ <header class="sticky top-0 bg-white/70 backdrop-blur border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2">
+      <img src="Minimalist logo desi.png" alt="Nexora" class="h-8 w-8">
+      <span class="text-xl font-bold text-purple-700">OvaCare✅</span>
+    </a>
+
+    <!-- Hamburger button (mobile only) -->
+    <button id="menuBtn" class="md:hidden text-purple-700 focus:outline-none">
+      <i data-feather="menu"></i>
+    </button>
+
+    <!-- Desktop nav -->
+    <nav class="hidden md:flex items-center gap-6 text-gray-600">
+      <a href="articles.html" class="hover:text-purple-700">Articles</a>
+      <a href="podcasts.html" class="hover:text-purple-700">Podcasts</a>
+      <a href="resources.html" class="hover:text-purple-700">Resources</a>
+      <a href="community.html" class="hover:text-purple-700">Community</a>
+      <a href="contactUs.html" class="hover:text-purple-700">About Us</a>
+      <a href="index.html" class="px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700">Logout</a>
+    </nav>
+  </div>
+
+  <!-- Mobile nav (hidden by default) -->
+  <nav id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-200 px-4 py-3 space-y-2">
+    <a href="articles.html" class="block text-gray-700 hover:text-purple-700">Articles</a>
+    <a href="podcasts.html" class="block text-gray-700 hover:text-purple-700">Podcasts</a>
+    <a href="resources.html" class="block text-gray-700 hover:text-purple-700">Resources</a>
+    <a href="community.html" class="block text-gray-700 hover:text-purple-700">Community</a>
+    <a href="contactUs.html" class="block text-gray-700 hover:text-purple-700">About Us</a>
+    <a href="index.html" class="block px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700">Logout</a>
+  </nav>
+</header>
+
+<!-- Inline JS -->
+<script>
+  // Replace feather icons
+  feather.replace();
+
+  // Toggle mobile menu
+  document.getElementById("menuBtn").onclick = function() {
+    const menu = document.getElementById("mobileMenu");
+    if (menu.classList.contains("hidden")) {
+      menu.classList.remove("hidden");
+    } else {
+      menu.classList.add("hidden");
+    }
+  };
+</script>
+
+<script>
+  feather.replace();
+</script>
+
 
   <!-- Subscription Badge -->
   <div id="subBadge" class="hidden bg-green-100 text-green-700 px-4 py-2 text-sm font-semibold text-center">
@@ -239,7 +278,7 @@
         document.getElementById("profileBadge").classList.remove("hidden");
       }
     });
-
+     
     feather.replace();
   </script>
 </body>

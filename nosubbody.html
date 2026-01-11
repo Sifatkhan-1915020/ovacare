@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Heroicons -->
+  <!-- Feather Icons -->
   <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body class="bg-gradient-to-br from-pink-50 via-purple-100 to-indigo-100 text-gray-800 font-sans">
@@ -14,19 +14,32 @@
   <!-- Navbar -->
   <header class="sticky top-0 bg-white/70 backdrop-blur border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-2">
-        <img src="static/img/logo.svg" alt="Nexora" class="h-8 w-8">
+      <a href="nosubbody.html" class="flex items-center gap-2">
+        <img src="Minimalist logo desi.png" alt="Nexora" class="h-8 w-8">
         <span class="text-xl font-bold text-purple-700">OvaCare</span>
       </a>
+
+      <!-- Hamburger button (mobile only) -->
+      <button id="menuBtn" class="md:hidden text-purple-700 focus:outline-none">
+        <i data-feather="menu"></i>
+      </button>
+
+      <!-- Desktop nav -->
       <nav class="hidden md:flex items-center gap-6 text-gray-600">
         <a href="articles.html" class="hover:text-purple-700">Articles</a>
-     
         <a href="resources.html" class="hover:text-purple-700">Resources</a>
-		<a href="contactUs.html" class="hover:text-purple-700">About Us </a>
-       
+        <a href="contactUs.html" class="hover:text-purple-700">About Us</a>
         <a href="subscription.html" class="px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700">Subscribe</a>
       </nav>
     </div>
+
+    <!-- Mobile nav (hidden by default) -->
+    <nav id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-200 px-4 py-3 space-y-2">
+      <a href="articles.html" class="block text-gray-700 hover:text-purple-700">Articles</a>
+      <a href="resources.html" class="block text-gray-700 hover:text-purple-700">Resources</a>
+      <a href="contactUs.html" class="block text-gray-700 hover:text-purple-700">About Us</a>
+      <a href="subscription.html" class="block px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700">Subscribe</a>
+    </nav>
   </header>
 
   <!-- Subscription Badge -->
@@ -37,12 +50,6 @@
   <!-- Profile Badge -->
   <div id="profileBadge" class="hidden bg-indigo-100 text-indigo-700 px-4 py-2 text-sm font-semibold text-center">
     👤 Logged in as: Myself <span id="profileName"></span>
-  </div>
-
-  <!-- Rest of your index content -->
-  <div class="max-w-6xl mx-auto px-4 py-8">
-    <h2 class="text-2xl font-bold text-indigo-700">Welcome to OvaCare</h2>
-    <!-- ... -->
   </div>
 
   <!-- Hero Section -->
@@ -65,7 +72,6 @@
         </div>
       </div>
       <div class="relative">
-        <!-- Placeholder image related to ovarian care -->
         <img src="static/img/ovarian_wellness.jpg" alt="Ovarian wellness illustration"
              class="rounded-2xl shadow-xl border border-purple-200">
         <div class="absolute -bottom-6 -right-6 bg-white rounded-xl shadow-lg p-4 flex items-center gap-3">
@@ -91,11 +97,10 @@
         <a href="articles.html" class="mt-3 inline-block text-purple-600 font-medium">Read articles →</a>
       </div>
 
-   
       <div class="rounded-xl bg-white p-6 shadow hover:shadow-lg transition">
         <div class="flex items-center gap-3">
           <i data-feather="users" class="text-purple-600"></i>
-          <h3 class="font-semibold text-lg"> Chat With OvaCare AI</h3>
+          <h3 class="font-semibold text-lg">Chat With OvaCare AI</h3>
         </div>
         <p class="mt-2 text-gray-600">Share experiences, ask questions, and support each other anonymously.</p>
         <a href="ai_chat.html" class="mt-3 inline-block text-purple-600 font-medium">Chat</a>
@@ -110,6 +115,7 @@
     </div>
   </footer>
 
+  <!-- Inline JS -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       // Show subscription badge if subscribed
@@ -124,9 +130,16 @@
         document.getElementById("profileName").textContent = name ? name + " (" + token + ")" : token;
         document.getElementById("profileBadge").classList.remove("hidden");
       }
-    });
 
-    feather.replace();
+      // Mobile menu toggle
+      const menuBtn = document.getElementById("menuBtn");
+      const mobileMenu = document.getElementById("mobileMenu");
+      menuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+
+      feather.replace();
+    });
   </script>
 </body>
 </html>
