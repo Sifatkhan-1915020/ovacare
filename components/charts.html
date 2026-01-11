@@ -1,0 +1,21 @@
+<!-- Chart container snippet -->
+<div class="rounded-xl bg-bg/40 p-4 border border-card">
+  <div class="h-56"><canvas id="chartDemo"></canvas></div>
+</div>
+<script>
+  const ctxDemo = document.getElementById("chartDemo")?.getContext("2d");
+  if (ctxDemo) {
+    new Chart(ctxDemo, {
+      type: "line",
+      data: {
+        labels: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+        datasets: [{
+          label: "Demo data",
+          data: [2,3,5,4,6,7,8],
+          borderColor: "#7C8CF2",
+          backgroundColor: "rgba(124,140,242,0.2)"
+        }]
+      }
+    });
+  }
+</script>

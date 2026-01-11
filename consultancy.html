@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nexora – Consultancy (dummy)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-pink-50 via-purple-100 to-indigo-100 text-gray-800 font-sans">
+
+  <!-- Subscription Badge -->
+  <div id="subBadge" class="hidden bg-green-100 text-green-700 px-4 py-2 text-sm font-semibold text-center">
+    ✅ Premium Subscription Active
+  </div>
+
+  <div class="max-w-3xl mx-auto px-4 py-8">
+    <h2 class="text-3xl font-bold text-purple-800">Live Consultancy (Demo)</h2>
+    <p class="text-gray-600 mt-1">Requires subscription (simulated). Payment required before booking.</p>
+
+    <!-- Booking form -->
+    <form class="rounded-2xl bg-white p-6 shadow mt-6 border border-purple-100" onsubmit="startPayment(event)">
+      <label class="text-sm text-gray-600 block">Role</label>
+      <select id="conRole" class="mt-1 w-full px-3 py-2 rounded-lg border border-purple-200">
+        <option>Doctor</option>
+        <option>Psychiatrist</option>
+        <option>Trainer</option>
+      </select>
+      <label class="text-sm text-gray-600 mt-3 block">Slot</label>
+      <input id="conSlot" class="mt-1 w-full px-3 py-2 rounded-lg border border-purple-200" placeholder="e.g., 2026-01-12 15:00">
+      <button class="mt-4 w-full px-4 py-2 rounded-lg bg-purple-600 text-white font-medium hover:bg-purple-700 transition">Proceed to Payment</button>
+      <p id="conStatus" class="mt-2 text-sm text-gray-500"></p>
+    </form>
+
+    <!-- Payment section -->
+    <div id="paymentSection" class="hidden rounded-2xl bg-white p-6 shadow mt-6 border border-purple-100">
+      <h3 class="font-semibold text-lg text-purple-700">Payment Options</h3>
+      <div class="mt-4 flex gap-3">
+        <button onclick="showPaymentForm('Card')" class="px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700">Card Payment</button>
+        <button onclick="showPaymentForm('bKash')" class="px-4 py-2 rounded-lg bg-pink-600 text-white hover:bg-pink-700">bKash Payment</button>
+      </div>
+
+      <div id="cardForm" class="hidden mt-4">
+        <label class="text-sm text-gray-600 block">Card Number</label>
+        <input id="cardNumber" class="mt-1 w-full px-3 py-2 rounded-lg border border-indigo-200" placeholder="1234-5678-9012-3456">
+        <button onclick="completePayment('Card')" class="mt-3 w-full px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700">Pay with Card</button>
+      </div>
+
+      <div id="bkashForm" class="hidden mt-4">
+        <label class="text-sm text-gray-600 block">bKash Number</label>
+        <input id="bkashNumber" class="mt-1 w-full px-3 py-2 rounded-lg border border-pink-200" placeholder="01XXXXXXXXX">
+        <button onclick="completePayment('bKash')" class="mt-3 w-full px-4 py-2 rounded-lg bg-pink-600 text-white hover:bg-pink-700">Pay with bKash</button>
+      </div>
+    </div>
+
+    <!-- Bookings list -->
+    <div class="rounded-2xl bg-white p-6 shadow mt-6 border border-purple-100">
+      <h3 class="font-semibold text-lg text-purple-700">My Bookings</h3>
+      <ul id="bookings" class="mt-4 space-y-3"></ul>
+    </div>
+  </div>
+
+  <script>
+    let bookings = [];
+    let pendingRole = "";
+    let pendingSlot = "";
+
+    function startPayment(e) {
+      e.preventDefault();
+      const role = document.getElementById("conRole").value;
+      const slot = document.getElementById("conSlot").value;
+      if (!slot) {
+        document.getElementById("conStatus").textContent = "Please enter a slot.";
+        return;
+      }
+      pendingRole = role;
+      pendingSlot = slot;
+      document.getElementById("paymentSection").classList.remove("hidden");
+      document.getElementById("conStatus").textContent = "Select a payment option.";
+    }
+
+    function showPaymentForm(method) {
+      document.getElementById("cardForm").classList.add("hidden");
+      document.getElementById("bkashForm").classList.add("hidden");
+      if (method === "Card") {
+        document.getElementById("cardForm").classList.remove("hidden");
+      } else {
+        document.getElementById("bkashForm").classList.remove("hidden");
+      }
+    }
+
+    function completePayment(method) {
+      let valid = false;
+      if (method === "Card") {
+        const num = document.getElementById("cardNumber").value;
+        if (num.length >= 12) valid = true;
+      } else {
+        const num = document.getElementById("bkashNumber").value;
+        if (num.length >= 11) valid = true;
+      }
+      if (!valid) {
+        alert("Please enter a valid " + method + " number.");
+        return;
+      }
+      localStorage.setItem("nexora_subscribed", "true");
+      document.getElementById("subBadge").classList.remove("hidden");
+      const booking = { role: pendingRole, slot: pendingSlot, status: "Confirmed", method };
+      bookings.unshift(booking);
+      renderBookings();
+      document.getElementById("paymentSection").classList.add("hidden");
+      document.getElementById("conStatus").textContent = "Payment successful. Booking confirmed.";
+    }
+
+    function renderBookings() {
+      const list = document.getElementById("bookings");
+      list.innerHTML = "";
+      bookings.forEach((b, i) => {
+        const li = document.createElement("li");
+        li.className = "flex items-center justify-between rounded-lg bg-purple-50 border border-purple-200 px-4 py-2";
+        li.innerHTML = `
+          <div>
+            <p class="font-medium text-purple-700">${b.role}</p>
+            <p class="text-sm text-gray-600">${b.slot}</p>
+            <p class="text-xs text-gray-500">Paid via ${b.method}</p>
+          </div>
+          <button onclick="downloadReceipt(${i})" class="text-indigo-600 text-sm underline">Download Receipt</button>
+        `;
+        list.appendChild(li);
+      });
+      if (!bookings.length) {
+        list.innerHTML = `<li class="text-gray-500">No bookings yet.</li>`;
+      }
+    }
+
+    function downloadReceipt(index) {
+      const b = bookings[index];
+      const receipt = `
+        Nexora Consultancy Receipt (Dummy)
+        -------------------------------
+        Role: ${b.role}
+        Slot: ${b.slot}
+        Status: ${b.status}
+        Payment Method: ${b.method}
+      `;
+      const blob = new Blob([receipt], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "receipt.pdf";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (localStorage.getItem("nexora_subscribed") === "true") {
+        document.getElementById("subBadge").classList.remove("hidden");
+      }
+      renderBookings();
+    });
+  </script>
+</body>
+</html>

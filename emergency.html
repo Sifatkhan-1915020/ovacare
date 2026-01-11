@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nexora – Emergency Assistance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#ec4899',
+            accent: '#8b5cf6',
+            card: 'rgba(255,255,255,0.85)',
+            bg: '#fdf2f8',
+            text: '#1f2937',
+            muted: '#6b7280'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 text-text antialiased">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b px-4 py-3 flex items-center gap-2">
+    <i data-feather="shield" class="text-primary"></i>
+    <h1 class="font-bold text-lg text-primary">Emergency Assistance</h1>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 py-6 sm:py-10">
+
+    <!-- Info -->
+    <div class="mb-6">
+      <h2 class="text-xl sm:text-2xl font-bold flex items-center gap-2">
+        <i data-feather="heart" class="text-accent"></i>
+        Financial Support (Demo)
+      </h2>
+      <p class="text-sm text-muted mt-2">
+        Your privacy is protected. NID is masked and never stored in raw form (demo only).
+      </p>
+    </div>
+
+    <!-- Request Form -->
+    <form class="rounded-3xl bg-card backdrop-blur border shadow-lg p-5 sm:p-6"
+          onsubmit="requestAid(event)">
+
+      <h3 class="font-semibold text-lg flex items-center gap-2 mb-4">
+        <i data-feather="file-text" class="text-primary"></i>
+        Request Emergency Assistance
+      </h3>
+
+      <label class="block text-sm text-muted">National ID (NID)</label>
+      <input id="nid"
+             class="mt-1 w-full rounded-xl px-4 py-3 border focus:ring-2 focus:ring-primary"
+             placeholder="Enter NID number"
+             required>
+
+      <label class="block text-sm text-muted mt-4">Requested Amount (BDT)</label>
+      <input id="amt"
+             type="number"
+             class="mt-1 w-full rounded-xl px-4 py-3 border focus:ring-2 focus:ring-primary"
+             placeholder="e.g. 10000"
+             required>
+
+      <button class="mt-5 w-full rounded-xl py-3 bg-gradient-to-r from-primary to-accent text-white font-medium shadow hover:scale-[1.02] transition">
+        Submit Request
+      </button>
+
+      <p id="aidStatus" class="mt-3 text-sm"></p>
+    </form>
+
+    <!-- Request History -->
+    <div class="rounded-3xl bg-card backdrop-blur border shadow-lg p-5 sm:p-6 mt-6">
+      <h3 class="font-semibold text-lg flex items-center gap-2">
+        <i data-feather="clock" class="text-primary"></i>
+        My Requests
+      </h3>
+
+      <ul id="aidList" class="mt-4 space-y-3 text-sm text-muted"></ul>
+    </div>
+
+  </main>
+
+  <!-- JavaScript Logic -->
+  <script>
+    feather.replace();
+
+    function requestAid(event) {
+      event.preventDefault();
+
+      const nidInput = document.getElementById("nid");
+      const amtInput = document.getElementById("amt");
+      const statusEl = document.getElementById("aidStatus");
+
+      const nid = nidInput.value.trim();
+      const amount = amtInput.value.trim();
+
+      if (!nid || !amount) return;
+
+      const maskedNID = "****" + nid.slice(-4);
+
+      const request = {
+        id: Date.now(),
+        nid: maskedNID,
+        amount,
+        status: "Pending",
+        time: new Date().toLocaleString()
+      };
+
+      const requests = JSON.parse(localStorage.getItem("aidRequests") || "[]");
+      requests.unshift(request);
+      localStorage.setItem("aidRequests", JSON.stringify(requests));
+
+      statusEl.textContent = "Request submitted successfully (demo).";
+      statusEl.className = "mt-3 text-sm text-green-600";
+
+      nidInput.value = "";
+      amtInput.value = "";
+
+      renderAidRequests();
+    }
+
+    function renderAidRequests() {
+      const list = document.getElementById("aidList");
+      const requests = JSON.parse(localStorage.getItem("aidRequests") || "[]");
+
+      if (requests.length === 0) {
+        list.innerHTML = `<li class="text-muted">No requests submitted yet.</li>`;
+        return;
+      }
+
+      list.innerHTML = requests.map(r => `
+        <li class="rounded-xl bg-white/70 border p-4 flex justify-between items-center">
+          <div>
+            <p class="font-medium">Amount: ৳${r.amount}</p>
+            <p class="text-xs text-muted">NID: ${r.nid}</p>
+            <p class="text-xs text-muted">${r.time}</p>
+          </div>
+          <span class="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
+            ${r.status}
+          </span>
+        </li>
+      `).join("");
+    }
+
+    document.addEventListener("DOMContentLoaded", renderAidRequests);
+  </script>
+
+</body>
+</html>

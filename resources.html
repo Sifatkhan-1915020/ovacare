@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nexora – Resources</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#6366F1",
+            accent: "#F43F5E",
+            card: "#ffffff",
+            bg: "#f9fafb",
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-50 via-pink-50 to-purple-100 text-gray-800 font-sans">
+
+  <div class="max-w-6xl mx-auto px-6 py-12">
+    <h2 class="text-3xl font-bold text-indigo-700">🍴 Interactive Recipes & Resources</h2>
+    <p class="text-gray-600 mt-1">Click on a recipe to reveal details and enjoy smooth animations.</p>
+
+    <div class="mt-8 grid md:grid-cols-3 gap-6">
+      <!-- Recipe Card -->
+      <div class="rounded-3xl bg-white/80 backdrop-blur p-6 shadow-lg border border-indigo-100 hover:shadow-xl transition cursor-pointer"
+           onclick="toggleRecipe('recipe1')">
+        <h3 class="font-semibold text-lg text-indigo-700 flex items-center gap-2">🥗 Lentil & Veggie Bowl</h3>
+        <p class="text-gray-600 mt-2">A fiber-rich, PCOS-friendly meal.</p>
+        <div id="recipe1" class="mt-4 hidden animate-fadeIn">
+          <h4 class="font-medium text-indigo-600">Ingredients:</h4>
+          <ul class="list-disc list-inside text-gray-600 mt-1">
+            <li>Lentils</li>
+            <li>Spinach</li>
+            <li>Carrots</li>
+            <li>Olive oil</li>
+          </ul>
+          <h4 class="font-medium text-indigo-600 mt-3">Steps:</h4>
+          <ol class="list-decimal list-inside text-gray-600 mt-1">
+            <li>Boil lentils until soft.</li>
+            <li>Sauté veggies lightly.</li>
+            <li>Mix together with olive oil.</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Recipe Card -->
+      <div class="rounded-3xl bg-white/80 backdrop-blur p-6 shadow-lg border border-indigo-100 hover:shadow-xl transition cursor-pointer"
+           onclick="toggleRecipe('recipe2')">
+        <h3 class="font-semibold text-lg text-indigo-700 flex items-center gap-2">🐟 Grilled Fish with Greens</h3>
+        <p class="text-gray-600 mt-2">Protein-packed and anti-inflammatory.</p>
+        <div id="recipe2" class="mt-4 hidden animate-fadeIn">
+          <h4 class="font-medium text-indigo-600">Ingredients:</h4>
+          <ul class="list-disc list-inside text-gray-600 mt-1">
+            <li>Fish fillet</li>
+            <li>Lemon juice</li>
+            <li>Mixed greens</li>
+          </ul>
+          <h4 class="font-medium text-indigo-600 mt-3">Steps:</h4>
+          <ol class="list-decimal list-inside text-gray-600 mt-1">
+            <li>Marinate fish with lemon.</li>
+            <li>Grill until golden.</li>
+            <li>Serve with fresh greens.</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Recipe Card -->
+      <div class="rounded-3xl bg-white/80 backdrop-blur p-6 shadow-lg border border-indigo-100 hover:shadow-xl transition cursor-pointer"
+           onclick="toggleRecipe('recipe3')">
+        <h3 class="font-semibold text-lg text-indigo-700 flex items-center gap-2">🍓 Yogurt Chia Parfait</h3>
+        <p class="text-gray-600 mt-2">A refreshing snack for hormone balance.</p>
+        <div id="recipe3" class="mt-4 hidden animate-fadeIn">
+          <h4 class="font-medium text-indigo-600">Ingredients:</h4>
+          <ul class="list-disc list-inside text-gray-600 mt-1">
+            <li>Greek yogurt</li>
+            <li>Chia seeds</li>
+            <li>Fresh berries</li>
+            <li>Honey</li>
+          </ul>
+          <h4 class="font-medium text-indigo-600 mt-3">Steps:</h4>
+          <ol class="list-decimal list-inside text-gray-600 mt-1">
+            <li>Layer yogurt and chia seeds.</li>
+            <li>Add berries on top.</li>
+            <li>Drizzle with honey.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Simple fade-in animation */
+    .animate-fadeIn {
+      animation: fadeIn 0.6s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+
+  <script>
+    function toggleRecipe(id) {
+      const el = document.getElementById(id);
+      el.classList.toggle("hidden");
+    }
+  </script>
+</body>
+</html>

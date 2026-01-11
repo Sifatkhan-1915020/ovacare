@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nexora – Signup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-50 via-pink-50 to-purple-100 text-gray-800 font-sans">
+
+  <div class="max-w-md mx-auto px-6 py-12">
+    <div class="rounded-3xl bg-white/80 backdrop-blur shadow-xl border border-indigo-100 p-8">
+      <h2 class="text-2xl font-bold text-indigo-700">Signup</h2>
+      <form class="mt-6 space-y-4" onsubmit="signup(event)">
+        <div>
+          <label class="text-sm text-gray-600 block">Name</label>
+          <input id="name" type="text" required class="mt-1 w-full px-3 py-2 rounded-lg border border-indigo-200">
+        </div>
+        <div>
+          <label class="text-sm text-gray-600 block">Email</label>
+          <input id="email" type="email" required class="mt-1 w-full px-3 py-2 rounded-lg border border-indigo-200">
+        </div>
+        <button class="w-full px-4 py-3 rounded-xl bg-indigo-600 text-white">Signup</button>
+      </form>
+
+      <div id="tokenBox" class="hidden mt-6 bg-indigo-50 border border-indigo-200 p-4 rounded-xl">
+        <h3 class="font-semibold text-indigo-700">Anonymous Token</h3>
+        <p id="token" class="mt-2 font-mono text-sm text-gray-700"></p>
+      </div>
+
+      <div class="mt-8 text-center">
+        <p class="text-sm text-gray-600">Already have an account?</p>
+        <a href="login.html" class="mt-2 inline-block px-4 py-2 rounded-lg bg-pink-600 text-white">Go to Login</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function signup(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const token = "NX-" + Math.random().toString(36).substring(2, 12).toUpperCase();
+
+      // Save to "database" (localStorage simulating users.txt)
+      let db = localStorage.getItem("users_db") || "";
+      db += `${name}|${email}|${token}\n`;
+      localStorage.setItem("users_db", db);
+
+      document.getElementById("token").textContent = token;
+      document.getElementById("tokenBox").classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>

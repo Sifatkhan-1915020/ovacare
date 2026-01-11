@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>OvaCare – AI Chat (Messenger Demo)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Feather icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-pink-50 via-purple-100 to-indigo-100 flex flex-col font-sans">
+
+  <!-- Header -->
+  <header class="bg-white/70 backdrop-blur border-b border-purple-200 px-4 py-3 flex items-center gap-3">
+    <div class="h-10 w-10 flex items-center justify-center rounded-full bg-purple-100 text-purple-600">
+      <i data-feather="message-circle"></i>
+    </div>
+    <h2 class="text-xl font-bold text-purple-700">Ovacare Wellness Chat</h2>
+  </header>
+
+  <!-- Chat window -->
+  <main id="chatWindow" class="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+    <!-- Dummy starter messages -->
+    <div class="flex justify-start">
+      <div class="max-w-xs rounded-2xl bg-purple-100 text-purple-800 px-4 py-2">
+        Hi there 👋, I’m your wellness companion.
+      </div>
+    </div>
+    <div class="flex justify-end">
+      <div class="max-w-xs rounded-2xl bg-purple-600 text-white px-4 py-2">
+        Can you give me some motivation?
+      </div>
+    </div>
+    <div class="flex justify-start">
+      <div class="max-w-xs rounded-2xl bg-purple-100 text-purple-800 px-4 py-2">
+        Small, consistent steps matter 🌱. Hydrate, walk 10 minutes, and celebrate each win.
+      </div>
+    </div>
+  </main>
+
+  <!-- Input area -->
+  <footer class="bg-white border-t border-purple-200 px-4 py-3 flex items-center gap-2">
+    <textarea id="chatPrompt"
+      class="flex-1 px-3 py-2 rounded-xl border border-purple-200 focus:ring-2 focus:ring-purple-400 focus:outline-none resize-none"
+      rows="1"
+      placeholder="Type your message..."></textarea>
+    <button id="sendBtn" class="px-4 py-2 rounded-xl bg-purple-600 text-white hover:bg-purple-700 flex items-center gap-2">
+      <i data-feather="send"></i>
+      <span>Send</span>
+    </button>
+  </footer>
+
+  <script>
+    feather.replace();
+
+    const chatWindow = document.getElementById("chatWindow");
+    const input = document.getElementById("chatPrompt");
+    const sendBtn = document.getElementById("sendBtn");
+
+    function addMessage(text, from="user") {
+      const wrapper = document.createElement("div");
+      wrapper.className = from === "user" ? "flex justify-end" : "flex justify-start";
+      const bubble = document.createElement("div");
+      bubble.className = from === "user"
+        ? "max-w-xs rounded-2xl bg-purple-600 text-white px-4 py-2"
+        : "max-w-xs rounded-2xl bg-purple-100 text-purple-800 px-4 py-2";
+      bubble.textContent = text;
+      wrapper.appendChild(bubble);
+      chatWindow.appendChild(wrapper);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    function dummyAIResponse(userText) {
+      let reply = "I’m here to help. Ask about routines, gentle movement, sleep, hydration, or goal setting.";
+      const t = userText.toLowerCase();
+      if (t.includes("motivation")) {
+        reply = "Small, consistent steps matter 🌱. Hydrate, walk 10 minutes, and celebrate each win.";
+      } else if (t.includes("diet")) {
+        reply = "Balanced meals: fiber, lean protein, healthy fats; limit refined sugar.";
+      } else if (t.includes("pcos") || t.includes("pcod")) {
+        reply = "Focus on routine, stress management, gentle movement, and tracking symptoms respectfully.";
+      }
+      return reply;
+    }
+
+    function sendMessage() {
+      const text = input.value.trim();
+      if (!text) return;
+      addMessage(text, "user");
+      input.value = "";
+      setTimeout(() => {
+        const reply = dummyAIResponse(text);
+        addMessage(reply, "ai");
+      }, 800);
+    }
+
+    sendBtn.addEventListener("click", sendMessage);
+    input.addEventListener("keypress", e => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nexora – Leaderboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#ec4899',
+            accent: '#8b5cf6',
+            card: 'rgba(255,255,255,0.85)',
+            bg: '#fdf2f8',
+            text: '#1f2937',
+            muted: '#6b7280'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 text-text antialiased">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b px-4 py-3 flex items-center gap-2">
+    <i data-feather="award" class="text-primary"></i>
+    <h1 class="font-bold text-lg text-primary">Leaderboard</h1>
+  </header>
+
+  <main class="max-w-2xl mx-auto px-4 py-6 sm:py-10">
+
+    <!-- LEADERBOARD CARD -->
+    <div class="rounded-3xl bg-card backdrop-blur border shadow-lg p-5 sm:p-6">
+
+      <h2 class="text-xl sm:text-2xl font-bold flex items-center gap-2">
+        <i data-feather="users" class="text-accent"></i>
+        Anonymous Leaderboard
+      </h2>
+
+      <p class="text-sm text-muted mt-2">
+        Only anonymous unique IDs are shown. Points increase with activity logs (demo logic).
+      </p>
+
+      <ul id="leaderboard" class="mt-6 space-y-3"></ul>
+    </div>
+
+  </main>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    feather.replace();
+
+    /* -------- UID -------- */
+    function ensureUID() {
+      let uid = localStorage.getItem("uid");
+      if (!uid) {
+        uid = "NX-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+        localStorage.setItem("uid", uid);
+      }
+      return uid;
+    }
+
+    /* -------- LEADERBOARD -------- */
+    function renderLeaderboard() {
+      const list = document.getElementById("leaderboard");
+      const uid = ensureUID();
+
+      // Dummy leaderboard data
+      let board = JSON.parse(localStorage.getItem("leaderboardData") || "[]");
+
+      // If empty, seed demo users
+      if (board.length === 0) {
+        board = [
+          { id: "NX-A12FQ", points: 120 },
+          { id: "NX-B9XK2", points: 95 },
+          { id: "NX-M7Q2Z", points: 80 }
+        ];
+      }
+
+      // Ensure current user exists
+      let me = board.find(u => u.id === uid);
+      if (!me) {
+        me = { id: uid, points: Math.floor(Math.random() * 40) + 20 };
+        board.push(me);
+      }
+
+      // Sort by points
+      board.sort((a, b) => b.points - a.points);
+
+      localStorage.setItem("leaderboardData", JSON.stringify(board));
+
+      list.innerHTML = board.map((u, index) => `
+        <li class="flex items-center justify-between rounded-2xl bg-white/70 border p-4 shadow-sm">
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-8 flex items-center justify-center rounded-full 
+              ${index === 0 ? 'bg-yellow-400 text-white' :
+                index === 1 ? 'bg-gray-300 text-gray-800' :
+                index === 2 ? 'bg-amber-600 text-white' :
+                'bg-pink-100 text-primary'} font-bold">
+              ${index + 1}
+            </span>
+            <div>
+              <p class="font-medium">
+                ${u.id === uid ? u.id + " (You)" : u.id}
+              </p>
+              <p class="text-xs text-muted">Anonymous User</p>
+            </div>
+          </div>
+
+          <span class="font-semibold text-primary">
+            ⭐ ${u.points}
+          </span>
+        </li>
+      `).join("");
+    }
+
+    document.addEventListener("DOMContentLoaded", renderLeaderboard);
+  </script>
+
+</body>
+</html>

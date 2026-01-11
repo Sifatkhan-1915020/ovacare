@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="utf-8">
+  <title>Nexora – Digital Care for Ovarian Wellness</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: "#0f1222",
+            card: "#141832",
+            primary: "#7C8CF2",
+            accent: "#C79DF2",
+            text: "#E9EAF7",
+            muted: "#A5A7C7",
+            success: "#34D399",
+            warning: "#FBBF24",
+            danger: "#F87171"
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Icons -->
+  <link href="https://api.fontshare.com/css?f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+  <!-- Chart.js CDN for charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Shared app JS -->
+  <script defer src="static/js/app.js"></script>
+</head>
+<body class="h-full bg-bg text-text font-[General Sans]">
+  <!-- Navbar -->
+  <header class="sticky top-0 z-50 bg-bg/80 backdrop-blur border-b border-card">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-primary/20 text-primary font-semibold">NX</span>
+        <span class="text-lg font-semibold">Nexora</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-4 text-muted">
+        <a class="hover:text-text" href="articles.html">Articles</a>
+        <a class="hover:text-text" href="podcasts.html">Podcasts</a>
+        <a class="hover:text-text" href="resources.html">Resources</a>
+        <a class="hover:text-text" href="community.html">Community</a>
+        <a class="hover:text-text" href="quizzes.html">Quizzes</a>
+        <a class="hover:text-text" href="ai_chat.html">AI Chat</a>
+        <a class="hover:text-text" href="subscription.html">Subscription</a>
+        <a class="px-3 py-1 rounded-lg bg-primary/20 text-primary hover:bg-primary/30" href="login.html" id="navLogin">Login</a>
+      </nav>
+      <button class="md:hidden p-2 rounded-lg bg-card" id="menuBtn">☰</button>
+    </div>
+    <div id="mobileMenu" class="md:hidden hidden border-t border-card">
+      <nav class="px-4 py-3 grid gap-2 text-muted">
+        <a class="hover:text-text" href="articles.html">Articles</a>
+        <a class="hover:text-text" href="podcasts.html">Podcasts</a>
+        <a class="hover:text-text" href="resources.html">Resources</a>
+        <a class="hover:text-text" href="community.html">Community</a>
+        <a class="hover:text-text" href="quizzes.html">Quizzes</a>
+        <a class="hover:text-text" href="ai_chat.html">AI Chat</a>
+        <a class="hover:text-text" href="subscription.html">Subscription</a>
+        <a class="px-3 py-2 rounded-lg bg-primary/20 text-primary hover:bg-primary/30" href="login.html">Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Flash area -->
+  <div id="flash" class="max-w-6xl mx-auto px-4 pt-3"></div>
+
+  <!-- Page content -->
+  <main class="max-w-6xl mx-auto px-4 py-6" id="page">
+    <!-- Each page will paste its content here (copy base header/footer) -->
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-10 border-t border-card">
+    <div class="max-w-6xl mx-auto px-4 py-6 text-muted text-sm">
+      Calm, anonymous support for ovarian wellness • Public resources are open • Demo UI
+    </div>
+  </footer>
+</body>
+</html>

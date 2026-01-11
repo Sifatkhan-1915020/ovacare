@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nexora – Subscription</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-50 via-pink-50 to-purple-100 text-gray-800 font-sans">
+
+  <div class="max-w-md mx-auto px-6 py-12">
+    <div class="rounded-3xl bg-white/80 backdrop-blur shadow-xl border border-indigo-100 p-8">
+      <h2 class="text-2xl font-bold text-indigo-700">Subscription</h2>
+      <p class="text-gray-600 mt-2">
+        Premium features cost <strong class="text-indigo-700">100 BDT/month</strong> (dummy). 
+        Click activate to simulate payment.
+      </p>
+
+      <!-- Activate Button -->
+      <button class="mt-6 w-full px-4 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow hover:from-indigo-600 hover:to-purple-700 transition"
+              onclick="activateSubscription()">
+        Activate Subscription (dummy)
+      </button>
+
+      <!-- Status -->
+      <p id="subStatus" class="mt-4 text-sm text-gray-600"></p>
+
+      <!-- Consultancy Button (hidden until subscribed) -->
+      <div id="consultancyBtn" class="mt-6 hidden">
+        <a href="consultancy.html" 
+           class="w-full block px-4 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-red-500 text-white font-semibold text-center shadow hover:from-pink-600 hover:to-red-600 transition">
+          Go to Consultancy
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="subModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center">
+    <div class="bg-white rounded-2xl shadow-xl p-8 max-w-sm text-center animate-fadeIn">
+      <h3 class="text-2xl font-bold text-green-600">🎉 Congratulations!</h3>
+      <p class="mt-3 text-gray-700">You are now subscribed to Nexora Premium.</p>
+      <button onclick="closeModal()" class="mt-6 px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700">Close</button>
+    </div>
+  </div>
+
+  <style>
+    .animate-fadeIn { animation: fadeIn 0.5s ease-in-out; }
+    @keyframes fadeIn { from {opacity:0; transform:scale(0.95);} to {opacity:1; transform:scale(1);} }
+  </style>
+
+  <script>
+    function activateSubscription() {
+      // Save subscription status
+      localStorage.setItem("nexora_subscribed", "true");
+      document.getElementById("subStatus").textContent = "Subscription activated!";
+      // Show modal
+      document.getElementById("subModal").classList.remove("hidden");
+      document.getElementById("subModal").classList.add("flex");
+      // Reveal consultancy button
+      document.getElementById("consultancyBtn").classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("subModal").classList.add("hidden");
+    }
+
+    // On load, check subscription status
+    document.addEventListener("DOMContentLoaded", () => {
+      if (localStorage.getItem("nexora_subscribed") === "true") {
+        document.getElementById("consultancyBtn").classList.remove("hidden");
+        document.getElementById("subStatus").textContent = "Subscription already active.";
+      }
+    });
+  </script>
+</body>
+</html>

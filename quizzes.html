@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nexora – Quizzes Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#6366F1",   // vibrant indigo
+            accent: "#F43F5E",    // lively pink/red
+            card: "#ffffff",
+            bg: "#f9fafb",
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-50 via-pink-50 to-purple-100 text-gray-800 font-sans">
+
+  <div class="max-w-3xl mx-auto px-6 py-12">
+    <h2 class="text-3xl font-bold text-indigo-700">Quizzes Hub</h2>
+    <p class="text-gray-600 mt-1">Test your habits, earn points, and track your progress.</p>
+
+    <!-- Hydration Quiz -->
+    <div class="rounded-3xl bg-white/80 backdrop-blur p-8 shadow-xl border border-indigo-100 mt-6">
+      <h3 class="text-xl font-semibold text-indigo-700">💧 Hydration Habits</h3>
+      <p class="text-gray-600 mt-2">Quick check on your daily water routines.</p>
+      <div class="mt-5 space-y-3">
+        <label class="flex items-center gap-3"><input type="radio" name="q1"> I drink water hourly</label>
+        <label class="flex items-center gap-3"><input type="radio" name="q1"> I drink only when thirsty</label>
+        <label class="flex items-center gap-3"><input type="radio" name="q1"> I often forget</label>
+      </div>
+      <button class="mt-6 w-full px-4 py-3 rounded-xl bg-primary text-white hover:bg-indigo-700 transition"
+              onclick="submitQuiz('Hydration', 'q1')">Submit</button>
+      <p id="result-q1" class="mt-4 text-sm text-gray-600"></p>
+    </div>
+
+    <!-- Sleep Quiz -->
+    <div class="rounded-3xl bg-white/80 backdrop-blur p-8 shadow-xl border border-indigo-100 mt-6">
+      <h3 class="text-xl font-semibold text-indigo-700">😴 Sleep Balance</h3>
+      <p class="text-gray-600 mt-2">Check your sleep routine.</p>
+      <div class="mt-5 space-y-3">
+        <label class="flex items-center gap-3"><input type="radio" name="q2"> 7-8 hours nightly</label>
+        <label class="flex items-center gap-3"><input type="radio" name="q2"> Less than 5 hours</label>
+        <label class="flex items-center gap-3"><input type="radio" name="q2"> Irregular schedule</label>
+      </div>
+      <button class="mt-6 w-full px-4 py-3 rounded-xl bg-primary text-white hover:bg-indigo-700 transition"
+              onclick="submitQuiz('Sleep', 'q2')">Submit</button>
+      <p id="result-q2" class="mt-4 text-sm text-gray-600"></p>
+    </div>
+
+    <!-- Nutrition Quiz -->
+    <div class="rounded-3xl bg-white/80 backdrop-blur p-8 shadow-xl border border-indigo-100 mt-6">
+      <h3 class="text-xl font-semibold text-indigo-700">🥗 Nutrition Balance</h3>
+      <p class="text-gray-600 mt-2">Evaluate your diet habits.</p>
+      <div class="mt-5 space-y-3">
+        <label class="flex items-center gap-3"><input type="radio" name="q3"> Balanced meals daily</label>
+        <label class="flex items-center gap-3"><input type="radio" name="q3"> High sugar intake</label>
+        <label class="flex items-center gap-3"><input type="radio" name="q3"> Skip meals often</label>
+      </div>
+      <button class="mt-6 w-full px-4 py-3 rounded-xl bg-primary text-white hover:bg-indigo-700 transition"
+              onclick="submitQuiz('Nutrition', 'q3')">Submit</button>
+      <p id="result-q3" class="mt-4 text-sm text-gray-600"></p>
+    </div>
+
+    <!-- Stress Quiz -->
+    <div class="rounded-3xl bg-white/80 backdrop-blur p-8 shadow-xl border border-indigo-100 mt-6">
+      <h3 class="text-xl font-semibold text-indigo-700">🌿 Stress Management</h3>
+      <p class="text-gray-600 mt-2">How do you handle stress?</p>
+      <div class="mt-5 space-y-3">
+        <label class="flex items-center gap-3"><input type="radio" name="q4"> Meditation / exercise</label>
+        <label class="flex items-center gap-3"><input type="radio" name="q4"> Ignore stress</label>
+        <label class="flex items-center gap-3"><input type="radio" name="q4"> Overeat / unhealthy coping</label>
+      </div>
+      <button class="mt-6 w-full px-4 py-3 rounded-xl bg-primary text-white hover:bg-indigo-700 transition"
+              onclick="submitQuiz('Stress', 'q4')">Submit</button>
+      <p id="result-q4" class="mt-4 text-sm text-gray-600"></p>
+    </div>
+
+    <!-- Scoreboard -->
+    <div class="rounded-3xl bg-white/80 backdrop-blur p-8 shadow-xl border border-indigo-100 mt-8">
+      <h3 class="text-xl font-semibold text-indigo-700">📊 Scoreboard</h3>
+      <p class="text-gray-600 mt-2">Your quiz performance ranking.</p>
+      <ul id="scoreList" class="mt-4 space-y-2 text-sm text-gray-700"></ul>
+      <div class="mt-6 h-64">
+        <canvas id="scoreChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const scores = {};
+
+    function submitQuiz(title, name) {
+      const options = document.getElementsByName(name);
+      let selected = null;
+      options.forEach(o => { if (o.checked) selected = o.nextSibling.textContent.trim(); });
+      const resultEl = document.getElementById("result-" + name);
+      if (!selected) {
+        resultEl.textContent = "Please select an option.";
+        resultEl.className = "mt-4 text-sm text-red-600";
+        return;
+      }
+      // Dummy scoring: first option = 10 pts, others = 5 or 2
+      let score = 0;
+      if (options[0].checked) score = 10;
+      else if (options[1].checked) score = 5;
+      else score = 2;
+      scores[title] = score;
+      resultEl.textContent = `You scored ${score} points for ${title}.`;
+      resultEl.className = "mt-4 text-sm font-medium text-green-600";
+      renderScores();
+    }
+
+    function renderScores() {
+      const list = document.getElementById("scoreList");
+      list.innerHTML = "";
+      Object.entries(scores).forEach(([quiz, score]) => {
+        const li = document.createElement("li");
+        li.textContent = `${quiz}: ${score} pts`;
+        list.appendChild(li);
+      });
+      updateChart();
+    }
+
+    let chart;
+    function updateChart() {
+      const ctx = document.getElementById("scoreChart").getContext("2d");
+      const labels = Object.keys(scores);
+      const data = Object.values(scores);
+      if (!chart) {
+        chart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels,
+            datasets: [{
+              label: "Quiz Scores",
+              data,
+              backgroundColor: ["#6366F1","#F43F5E","#10B981","#F59E0B"]
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false }
+        });
+      } else {
+        chart.data.labels = labels;
+        chart.data.datasets[0].data = data;
+        chart.update();
+      }
+    }
+  </script>
+</body>
+</html>

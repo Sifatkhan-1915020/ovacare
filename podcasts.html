@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nexora – Podcasts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Feather icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#ec4899',
+            accent: '#8b5cf6',
+            card: 'rgba(255,255,255,0.85)',
+            bg: '#fdf2f8',
+            text: '#1f2937',
+            muted: '#6b7280'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 text-text antialiased">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b px-4 py-3 flex items-center gap-2">
+    <i data-feather="mic" class="text-primary"></i>
+    <h1 class="font-bold text-lg text-primary">Podcasts</h1>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-8">
+
+    <div class="mb-6">
+      <h2 class="text-2xl font-bold flex items-center gap-2">
+        <i data-feather="headphones" class="text-accent"></i>
+        Calm Podcasts
+      </h2>
+      <p class="text-sm text-muted mt-1">Short, calm sessions for daily balance.</p>
+    </div>
+
+    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Podcast Card 1 -->
+      <div class="rounded-3xl p-5 flex flex-col shadow-lg bg-gradient-to-br from-pink-400 to-pink-200 text-white">
+        <img src="https://i.ytimg.com/vi/jSZXjVWUCzM/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCfEZ3JTJaPK6pkdjgkXf49kY27tQ" alt="Daily Calm" class="rounded-2xl w-full h-40 object-cover mb-4">
+        <h3 class="font-bold text-lg">Daily Calm Check-in</h3>
+        <p class="text-sm mt-1">Start your day with calmness</p>
+        <audio controls class="mt-4 w-full rounded-lg">
+          <source src="" type="audio/mpeg">
+        </audio>
+      </div>
+
+      <!-- Podcast Card 2 -->
+      <div class="rounded-3xl p-5 flex flex-col shadow-lg bg-gradient-to-br from-green-400 to-green-200 text-white">
+        <img src="https://i.ytimg.com/vi/cPhf2xA1dvc/sddefault.jpg" alt="Nutrition" class="rounded-2xl w-full h-40 object-cover mb-4">
+        <h3 class="font-bold text-lg">Nutrition Basics</h3>
+        <p class="text-sm mt-1">Learn healthy diet tips</p>
+        <audio controls class="mt-4 w-full rounded-lg">
+          <source src="" type="audio/mpeg">
+        </audio>
+      </div>
+
+      <!-- Podcast Card 3 -->
+      <div class="rounded-3xl p-5 flex flex-col shadow-lg bg-gradient-to-br from-purple-400 to-purple-200 text-white">
+        <img src="https://australiaawardsbangladesh.org/wp-content/uploads/sites/3/2024/09/DIE8844-1024x683.jpg" alt="Gentle Movement" class="rounded-2xl w-full h-40 object-cover mb-4">
+        <h3 class="font-bold text-lg">Gentle Movement</h3>
+        <p class="text-sm mt-1">Short sessions for flexibility</p>
+        <audio controls class="mt-4 w-full rounded-lg">
+          <source src="" type="audio/mpeg">
+        </audio>
+      </div>
+
+      <!-- Add more podcasts here -->
+    </div>
+
+  </main>
+
+  <script>
+    feather.replace();
+  </script>
+
+</body>
+</html>

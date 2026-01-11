@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nexora – Articles</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-pink-50 via-purple-100 to-indigo-100 text-gray-800 font-sans">
+
+  <div class="max-w-6xl mx-auto px-4 py-8">
+    <h2 class="text-3xl font-bold text-purple-800">Articles</h2>
+    <p class="text-gray-600 mt-1">Open access educational content with expert and community voices.</p>
+
+    <div class="mt-6 grid md:grid-cols-3 gap-6">
+      <!-- Article 1 -->
+      <article class="rounded-xl bg-white p-6 shadow hover:shadow-lg transition border border-purple-100">
+        <h3 class="font-semibold text-lg text-purple-700">Gentle routines for PCOS</h3>
+        <p class="text-gray-600 mt-2">Hydration, mindful movement, consistent sleep — small steps compound.</p>
+        <div class="mt-3 flex items-center gap-3">
+          <img src="https://i0.wp.com/parkview.com.bd/wp-content/uploads/2025/12/Dr-Md-Kutub-Uddin.jpg?fit=600%2C600&ssl=1" alt="Dr. Adib Rahman" class="h-10 w-10 rounded-full border border-purple-200">
+          <div>
+            <p class="text-sm font-medium text-gray-800">Dr. Adib Rahman</p>
+            <p class="text-xs text-gray-500">Endocrinologist</p>
+          </div>
+        </div>
+        <button onclick="summarize(this)" class="mt-4 w-full px-3 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition text-sm">
+          Summarize
+        </button>
+        <div class="mt-2 text-sm text-gray-700 hidden"></div>
+      </article>
+
+      <!-- Article 2 -->
+      <article class="rounded-xl bg-white p-6 shadow hover:shadow-lg transition border border-purple-100">
+        <h3 class="font-semibold text-lg text-purple-700">Understanding ovarian cysts</h3>
+        <p class="text-gray-600 mt-2">Common types, symptoms, and supportive lifestyle strategies.</p>
+        <div class="mt-3 flex items-center gap-3">
+          <img src="https://premiermedicalgrp.com/wp-content/uploads/2023/10/McGowin_400x560.jpg" alt="Nusrat Jahan" class="h-10 w-10 rounded-full border border-purple-200">
+          <div>
+            <p class="text-sm font-medium text-gray-800">Nusrat Jahan</p>
+            <p class="text-xs text-gray-500">Community Contributor</p>
+          </div>
+        </div>
+        <button onclick="summarize(this)" class="mt-4 w-full px-3 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition text-sm">
+          Summarize
+        </button>
+        <div class="mt-2 text-sm text-gray-700 hidden"></div>
+      </article>
+
+      <!-- Article 3 -->
+      <article class="rounded-xl bg-white p-6 shadow hover:shadow-lg transition border border-purple-100">
+        <h3 class="font-semibold text-lg text-purple-700">Sleep and stress balance</h3>
+        <p class="text-gray-600 mt-2">Practical ways to unwind, track rest, and regulate routines.</p>
+        <div class="mt-3 flex items-center gap-3">
+          <img src="https://cdn.prod.website-files.com/616f5da4f060b12eeaa1a1df/619256ebcc609453eced6019_Vick-Bonnie-MD.png" alt="Dr. Farhana Karim" class="h-10 w-10 rounded-full border border-purple-200">
+          <div>
+            <p class="text-sm font-medium text-gray-800">Dr. Farhana Karim</p>
+            <p class="text-xs text-gray-500">Psychiatrist</p>
+          </div>
+        </div>
+        <button onclick="summarize(this)" class="mt-4 w-full px-3 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition text-sm">
+          Summarize
+        </button>
+        <div class="mt-2 text-sm text-gray-700 hidden"></div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    function summarize(btn) {
+      const article = btn.closest("article");
+      const title = article.querySelector("h3").innerText;
+      const summaryBox = article.querySelector("div.mt-2");
+      let summaryText = "";
+
+      if (title.includes("PCOS")) {
+        summaryText = "Highlights how hydration, gentle exercise, and consistent sleep can improve PCOS management.";
+      } else if (title.includes("cysts")) {
+        summaryText = "Explains ovarian cyst types, symptoms, and lifestyle strategies for supportive care.";
+      } else if (title.includes("Sleep")) {
+        summaryText = "Focuses on balancing rest and stress, offering practical tips to unwind and regulate routines.";
+      }
+
+      summaryBox.innerText = summaryText;
+      summaryBox.classList.remove("hidden");
+      btn.innerText = "Hide summary";
+      btn.onclick = () => {
+        summaryBox.classList.add("hidden");
+        btn.innerText = "Summarize";
+        btn.onclick = () => summarize(btn);
+      };
+    }
+  </script>
+</body>
+</html>
