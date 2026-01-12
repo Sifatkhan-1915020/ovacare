@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>OvaCare Walk Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+<div class="max-w-3xl mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold text-green-700">Walk Tracker</h1>
+  <p class="mt-2 text-gray-600">This is a demo of your walking path and stats.</p>
+
+  <!-- Map -->
+  <div id="map" class="bg-gray-300 flex items-center justify-center text-gray-700 rounded" style="height:400px;">
+    Dummy Map: Walking Path Here
+  </div>
+
+  <!-- Stats -->
+  <div class="mt-6 bg-white p-4 rounded shadow">
+    <h2 class="text-xl font-semibold text-green-700">Your Walk Stats (Dummy)</h2>
+    <p class="mt-2">Distance: <strong>3.2 km</strong></p>
+    <p>Calories burned: <strong>150 kcal</strong></p>
+    <p>Steps: <strong>4000 steps</strong></p>
+  </div>
+</div>
+
+<script>
+  function initMap() {
+    // Center of map
+    const center = { lat: 23.8103, lng: 90.4125 }; // Dhaka dummy location
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 15,
+      center: center
+    });
+
+    // Dummy walking path (polyline)
+    const walkPath = [
+      { lat: 23.8103, lng: 90.4125 },
+      { lat: 23.8110, lng: 90.4140 },
+      { lat: 23.8120, lng: 90.4155 },
+      { lat: 23.8108, lng: 90.4165 },
+      { lat: 23.8103, lng: 90.4125 }
+    ];
+
+    const walkingRoute = new google.maps.Polyline({
+      path: walkPath,
+      geodesic: true,
+      strokeColor: "#34D399",
+      strokeOpacity: 1.0,
+      strokeWeight: 4
+    });
+
+    walkingRoute.setMap(map);
+
+    // Marker at start
+    new google.maps.Marker({
+      position: walkPath[0],
+      map: map,
+      title: "Start",
+      label: "S"
+    });
+
+    // Marker at end
+    new google.maps.Marker({
+      position: walkPath[walkPath.length - 1],
+      map: map,
+      title: "End",
+      label: "E"
+    });
+
+    // Trigger push notification when map loads
+    sendNotification("Walk Tracker Ready", "Your walking path has been loaded successfully!");
+  }
+
+  // Push Notification function
+  function sendNotification(title, message) {
+    if ("Notification" in window) {
+      if (Notification.permission === "granted") {
+        new Notification(title, { body: message });
+      } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            new Notification(title, { body: message });
+          }
+        });
+      }
+    }
+  }
+</script>
+
+<!-- Load Google Maps API (replace YOUR_API_KEY with a real key if needed) -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJ1QPfVA2nujaOtKoCPH-VsouR-mrw2uE&callback=initMap"></script>
+
+</body>
+</html>
