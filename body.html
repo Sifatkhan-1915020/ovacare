@@ -79,14 +79,14 @@
 
   <!-- Subscription Badge -->
   <div id="subBadge" class="hidden bg-green-100 text-green-700 px-4 py-2 text-sm font-semibold text-center">
-    <p> ✅ Subscribed to OvaCare Premium </p>
+    <p> ✅OvaCare Premium </p>
   </div>
 
   <!-- Profile Badge -->
   <div id="profileBadge" class="hidden bg-indigo-100 text-indigo-700 px-4 py-2 text-sm font-semibold text-center">
     👤 Logged in as: Myself <span id="profileName"></span>
   </div>
-   <img src="ovacare.png" alt="Nexora" class="h-10 w-10">
+   
   <!-- Rest of your index content -->
  <div class="max-w-6xl mx-auto px-4 py-8 flex items-center space-x-4">
   <!-- Logo -->
@@ -271,20 +271,34 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // Show subscription badge if subscribed
-      if (localStorage.getItem("nexora_subscribed") === "true") {
-        document.getElementById("subBadge").classList.remove("hidden");
-      }
+  // Show subscription badge if subscribed
+  if (localStorage.getItem("nexora_subscribed") === "true") {
+    document.getElementById("subBadge").classList.remove("hidden");
+  }
 
-      // Show profile token if logged in
-      const token = localStorage.getItem("nexora_token");
-      const name = localStorage.getItem("nexora_name");
-      if (token) {
-        document.getElementById("profileName").textContent = name ? name + " (" + token + ")" : token;
-        document.getElementById("profileBadge").classList.remove("hidden");
-      }
+  // Show profile token if logged in
+  const token = localStorage.getItem("nexora_token");
+  const name = localStorage.getItem("nexora_name");
+  if (token) {
+    document.getElementById("profileName").textContent = name ? name + " (" + token + ")" : token;
+    document.getElementById("profileBadge").classList.remove("hidden");
+  }
+
+  // ================= Push Notification / Alert Reminder =================
+  if ("Notification" in window && Notification.permission === "granted") {
+    // Show browser notification if supported and allowed
+    new Notification("OvaCare Reminder 💜", {
+      body: "Do you intake water and do physical exercise?",
+      icon: "ovacare.png"
     });
-     
+  } else {
+    // Fallback for browsers without Notification API or permission
+    setTimeout(() => {
+      alert("💜 OvaCare Reminder: Do you intake water and do physical exercise?");
+    }, 500); // small delay to allow page to load
+  }
+});
+
     feather.replace();
   </script>
 </body>
