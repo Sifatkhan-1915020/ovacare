@@ -8,7 +8,28 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-indigo-50 via-pink-50 to-purple-100 text-gray-800 font-sans">
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <!-- Top row: logo + title -->
+  <div class="flex items-center space-x-4">
+    <!-- Logo -->
+    <img src="ovacare.png" alt="OvaCare Logo"
+         class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-indigo-500 shadow-md" />
 
+    <!-- Title + subtitle -->
+    <div>
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-purple-700">OvaCare</h1>
+      <h6 class="text-sm sm:text-base font-semibold text-indigo-500">made by team Nexora</h6>
+    </div>
+  </div>
+
+  <!-- Tagline -->
+  <h3 class="mt-4 text-base sm:text-lg text-gray-600 glow">
+    <b>Subscribe today for better life!</b>
+  </h3>
+
+  <!-- Heartbeat animation -->
+  
+</div>
   <div class="max-w-md mx-auto px-6 py-12">
     <div class="rounded-3xl bg-white/80 backdrop-blur shadow-xl border border-indigo-100 p-8">
       <h2 class="text-2xl font-bold text-indigo-700">Subscription</h2>
@@ -56,7 +77,12 @@
       <button onclick="closeModal()" class="mt-6 px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700">Close</button>
     </div>
   </div>
-
+ <footer class="bg-white border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 py-6 text-center text-gray-500 text-sm">
+      © 2026 Team Nexora. Calm, anonymous support for ovarian wellness.
+	  For any query call +880 12345689
+    </div>
+  </footer>
   <style>
     .animate-fadeIn { animation: fadeIn 0.5s ease-in-out; }
     @keyframes fadeIn { from {opacity:0; transform:scale(0.95);} to {opacity:1; transform:scale(1);} }
